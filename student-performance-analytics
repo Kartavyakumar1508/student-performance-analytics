@@ -1,0 +1,55 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Load dataset
+df = pd.read_csv("/content/student_scores.csv")
+
+# 🔍 Show first 5 records
+print("📄 First 5 records:")
+print(df.head())
+
+# 📊 Average score by gender
+gender_avg = df.groupby('Gender')[['Math_Score', 'Science_Score', 'English_Score']].mean()
+print("\n📊 Average Scores by Gender:")
+print(gender_avg)
+
+# 🥇 Top performers in each subject
+top_math = df.loc[df['Math_Score'].idxmax()]
+top_science = df.loc[df['Science_Score'].idxmax()]
+top_english = df.loc[df['English_Score'].idxmax()]
+
+print("\n🥇 Top Math Scorer:")
+print(top_math)
+print("\n🥇 Top Science Scorer:")
+print(top_science)
+print("\n🥇 Top English Scorer:")
+print(top_english)
+
+# 📈 Distribution of Math scores
+sns.histplot(df['Math_Score'], kde=True, color='skyblue')
+plt.title("Distribution of Math Scores")
+plt.xlabel("Math Score")
+plt.ylabel("Frequency")
+plt.tight_layout()
+plt.show()
+
+# 📊 Bar chart: Average subject scores by gender
+gender_avg.plot(kind='bar', figsize=(8,5))
+plt.title("Average Subject Scores by Gender")
+plt.ylabel("Average Score")
+plt.xlabel("Gender")
+plt.xticks(rotation=0)
+plt.legend(loc='lower right')
+plt.tight_layout()
+plt.show()
+
+# 📊 Scatter plot: Math vs Science scores
+plt.figure(figsize=(8,5))
+sns.scatterplot(x='Math_Score', y='Science_Score', hue='Gender', data=df, s=100)
+plt.title("Math vs Science Scores by Gender")
+plt.xlabel("Math Score")
+plt.ylabel("Science Score")
+plt.grid(True)
+plt.tight_layout()
+plt.show()
